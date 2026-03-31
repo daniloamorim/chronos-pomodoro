@@ -1,6 +1,6 @@
 import { HistoryIcon, HouseIcon, SettingsIcon, SunIcon } from 'lucide-react'
 import styles from './styles.module.css'
-import {useState} from 'react'
+import {useState, useEffect } from 'react'
 
 type AvailableThemes = 'dark' | 'light';
 
@@ -12,7 +12,7 @@ export function Menu () {
     ) {
         event.preventDefault(); //Não segue o Link
 
-        console.log('Clicado', Date.now());
+        // console.log('Clicado', Date.now());
         setTheme(prevTheme => {
             const nextTheme = prevTheme ==='dark' ? 'light' : 'dark';
             return nextTheme;
@@ -20,9 +20,22 @@ export function Menu () {
 
         //document.documentElement.setAttribute('data-theme', theme)
     }
+
+    // useEffect(() =>{
+    //     console.log('useEffect sem dependencias', Date.now())
+    // }) //Executa todas as vezes que p componente renderiza na tela
+
+    // useEffect(() =>{
+    //     console.log('useEfffect com array dependencia vazio', Date.now())
+    // }, []) //Executa apenas quando o React monta o componente na tela pela primeira vez
+
+    useEffect(() => {
+        console.log('Theme mudou', theme, Date.now());
+        document.documentElement.setAttribute('data-theme', theme);
+    }, [theme]) //Executa apenas quando o valor de theme muda 
+    
     return (
         <nav className = { styles.menu }>
-            <h1>{theme}</h1>
             <a className={ styles.menuLink } href='#' aria-label='Ir para a Home' title='Ir para a Home'>
                 <HouseIcon />
             </a>
